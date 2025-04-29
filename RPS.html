@@ -1,0 +1,178 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>RPS</title>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+</head>
+
+<body>
+
+<div id="app">
+
+
+<div class="grid grid-cols-3 pt-20 mx-auto max-w-lg min-h-[22%]">
+<div class="text-center">
+<i class="fa-solid fa-user text-5xl text-transparent bg-clip-text bg-gradient-to-b from-lime-400 to-lime-600"></i><br>
+<span class="text-4xl" v-html="result2"></span>
+</div>
+<div  class="flex justify-center items-center">
+
+<span class="text-4xl" v-html="rawHtml"></span>
+
+</div>
+<div class="text-center">
+<i class="fa-solid fa-desktop text-5xl text-transparent bg-clip-text bg-gradient-to-b from-amber-400 to-amber-600"></i><br>
+<span class="text-4xl" v-html="result1"></span>
+</div>
+
+</div>
+
+<div class="grid grid-cols-3 p-10 text-4xl mx-auto  max-w-lg">
+<div class="text-center">
+<label>{{ Player_score }}</label>
+</div>
+
+<div class="text-center ">
+&nbsp;
+</div>
+
+<div class="text-center">
+<label class="items-center">{{ Comp_score }}</label>
+</div>
+</div>
+
+<div class="grid grid-cols-3 px-10 py-10 mx-auto max-w-lg min-h-[15%]">
+<div class="text-center">
+    <button v-if="showRock" class="bg-transparent" @click="rand_select(); sel_rock()">
+        <i id="rock" class="rounded fa-solid fa-hill-rockslide text-7xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600 hover:bg-gradient-to-t"></i>
+        </button>
+</div>
+<div class="text-center">
+    <button v-if="showPaper" @click="rand_select(); sel_paper()">
+        <i id="pap" class="rounded fa-solid fa-scroll text-7xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600 hover:bg-gradient-to-t"></i>
+        </button>
+</div>
+<div class="text-center">
+    <button v-if="showScissors" @click="rand_select(); sel_scissors()">
+        <i id="sci" class="bg-fuchsia-100 rounded fa-solid fa-scissors text-7xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600 hover:bg-gradient-to-t"></i>
+        </button>
+</div>
+</div>
+
+
+
+<div class="flex justify-center mx-auto max-w-lg p-10">
+<button class="w-12 h-12 bg-fuchsia-400 text-white font-bold shadow-2xl rounded-full" @click="reset_score()">
+<i class="text-3xl text-fuchsia-800 justify-center fa-solid fa-power-off hover:text-fuchsia-200"></i>
+</button>
+</div>
+
+</div>
+</body>
+
+   <script type="module">
+        const app = Vue.createApp({
+            data() {
+                return {
+                    result1: " ",
+                    result2: ' ',
+                                        output: ' ',
+                                        Comp_score: 0,
+                                        Player_score: 0,
+                                        rawHtml: '',
+                                        showRock: true,
+                                        showPaper: true,
+                                        showScissors: true
+                }
+            },
+            methods: {
+                rand_select() {
+                                        var items = Array("Rock", "Paper", "Scissors")
+                                        var a = Math.floor(Math.random()*items.length)
+                                        var item = items[a];
+                                        this.result1 = item;
+                                        },
+//                                      console.log(this.result1, //this.result2,this.output);
+
+                sel_rock() {
+                                        this.showRock = false;
+                    this.result2 = '<i id="rock" class="rounded fa-solid fa-hill-rockslide text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">';
+                                                if(this.result1=="Paper"){
+                                                this.output = "Computer Won";
+                                                this.Comp_score++;
+                                                this.rawHtml = '<i class="fa-solid fa-thumbs-down fa-bounce text-transparent bg-clip-text bg-gradient-to-b from-amber-400 to-amber-600" style="--fa-animation-duration: 2s;"></i>';
+                                                this.result1='<i id="pap" class="rounded fa-solid fa-scroll text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">';
+                                                } else if(this.result1=="Scissors"){
+                                                this.output = "You Won";
+                                                this.Player_score++;
+
+                                                this.rawHtml = '<i class="fa-solid fa-thumbs-up fa-bounce text-transparent bg-clip-text bg-gradient-to-b from-lime-400 to-lime-600"></i>';
+                                                this.result1 = '<i id="sci" class="rounded fa-solid fa-scissors text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">';
+                                                } else {
+                                                this.output = "It's a tie"
+                                                this.rawHtml = '<i class="fa-brands fa-black-tie fa-beat text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-amber-400" style="--fa-animation-duration: 2s;"></i>';
+                                                this.result1 = '<i id="sci" class="rounded fa-solid fa-hill-rockslide text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">';
+                                                }
+                                                setTimeout(() => this.showRock = true, 200);
+                                        },
+                sel_paper() {
+                                                this.showPaper = false;
+                                                this.result2 = '<i id="pap" class="rounded fa-solid fa-scroll text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">';
+                                                if(this.result1=="Rock"){
+                                                this.output = "You Won";
+                                                this.Player_score++;
+                                                this.rawHtml = '<i class="fa-solid fa-thumbs-up fa-bounce text-transparent bg-clip-text bg-gradient-to-b from-lime-400 to-lime-600"></i>';
+                                                this.result1 = '<i id="rock" class="rounded fa-solid fa-hill-rockslide text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">';
+                                                } else if(this.result1=="Scissors"){
+                                                this.output = "Computer Won";
+                                                this.Comp_score++;
+                                                this.rawHtml = '<i class="fa-solid fa-thumbs-down fa-bounce text-transparent bg-clip-text bg-gradient-to-b from-amber-400 to-amber-600" style="--fa-animation-duration: 2s;"></i>';
+                                                this.result1 = '<i id="sci" class="rounded fa-solid fa-scissors text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">';
+                                                } else {
+                                                this.output = "It's a tie"
+                                                this.rawHtml = '<i class="fa-brands fa-black-tie fa-beat text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-amber-400" style="--fa-animation-duration: 2s;"></i>';
+                                                this.result1='<i id="pap" class="rounded fa-solid fa-scroll text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">';
+                                                }
+                                                setTimeout(() => this.showPaper = true, 200);
+                                        },
+                sel_scissors() {
+                                        this.showScissors = false;
+                    this.result2 = '<i id="pap" class="rounded fa-solid fa-scissors text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">';
+                                                if(this.result1=="Rock"){
+                                                this.output = "Computer Won";
+                                                this.Comp_score++;
+                                                this.rawHtml = '<i class="fa-solid fa-thumbs-down fa-bounce text-transparent bg-clip-text bg-gradient-to-b from-amber-400 to-amber-600" style="--fa-animation-duration: 2s;"></i>';
+                                                this.result1='<i id="rock" class="rounded fa-solid fa-hill-rockslide text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">'
+                                                } else if(this.result1=="Paper"){
+                                                this.output = "You Won";
+                                                this.Player_score++;
+                                                this.rawHtml = '<i class="fa-solid fa-thumbs-up fa-bounce text-transparent bg-clip-text bg-gradient-to-b from-lime-400 to-lime-600"></i>';
+                                                this.result1='<i id="pap" class="rounded fa-solid fa-scroll text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">'
+                                                } else {
+                                                this.output = "It's a tie";
+                                                this.rawHtml = '<i class="fa-brands fa-black-tie fa-beat text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-amber-400" style="--fa-animation-duration: 2s;"></i>';
+                                                this.result1 = '<i id="sci" class="rounded fa-solid fa-scissors text-2xl text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-400 to-fuchsia-600">';
+                                                }
+                                                setTimeout(() => this.showScissors = true, 200);
+                                                },
+                                reset_score(){
+                                                this.Comp_score = 0;
+                                                this.Player_score = 0;
+                                                this.result1 = '';
+                                                this.result2 = '';
+                                                this.output = '';
+                                                this.rawHtml = '';
+                },
+            },
+        })
+
+        app.mount('#app')
+    </script>
+
+</html>
